@@ -1,0 +1,18 @@
+.clear{
+    border: 0;
+    background: none;
+    vertical-align: baseline;
+    /* font-family: inherit; */
+    /* font-weight: inherit; */
+    /* color: inherit; */
+    outline: none;
+}
+.clear:hover {
+    color:green;
+}
+.action{
+    color:red;
+}
+.live{
+    color: blue;
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script src="../vue.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="../styles.css" />
+    </head>
+    <body>
+        <div id="app">
+            <app-cpn :cmessage="message" :cmovies="movies" :categories="categories" @itemclick="iclick"></app-cpn>
+            <div>点击：{{limessage}}</div>
+            <div>============================================</div>
+            <cpn2 ref="cpn2">
+                <!-- <div>111111111</div> -->
+            </cpn2>
+            <cpn2 ref="cpn2">
+                <template v-slot="slot">
+                    <span v-for="item in slot.data">{{item}} </span>
+                </template>
+            </cpn2>
+            <button @click="btnClick">按钮</button>
+        </div>
+        <template id="cpn">
+            <div>
+                <h2>计数器：{{counter}}</h2>
+                <button @click="incCount">-</button>
+                <button @click="decCount">+</button>
+                <div>--------------------父传子--------------------------</div>
+                <div>{{cmessage}}</div>
+                <div>{{cmovies}}</div>
+                <div>--------------------子传父--------------------------</div>
+                <ul>
+                    <li
+                        v-for="item in categories"
+                        @click="liClick(item)"
+                        :class="{action: item.id === liIndex}">{{item.name}}</li>
+                </ul>
+            </div>
+        </template>
+        <template id="cpn2">
+            <div>
+                <p>子组件</p>
+                <slot :data="planguages">
+                    <ul>
+                        <li v-for="item in planguages">{{item}}</li>
+                    </ul>
+                </slot>
+            </div>
+        </template>
+        <script type="text/javascript">
+            Vue.component('app-cpn', {
+                template: '#cpn',
+                // props: ['cmessage', 'cmovies'],
+                props: {
+                    cmessage: {
+                        type: String,
+                        default: 'aaaaaaaaaaa'
+                    },
+                    cmovies: {
+                        type: Array,
+                        default() {
+                            return []
+                        }
+                    },
+                    categories: {
+                        type: Array,
+                        default() {
+                            return []
+                        }
+                    },
+                },
+                data() {
+                    return {
+                        counter: 0,
+                        liIndex: ''
+                    }
+                },
+                methods: {
+                    incCount() {
+                        this.counter--
+                    },
+                    decCount() {
+                        this.counter++
+                    },
+                    liClick(item) {
+                        this.$emit('itemclick', item),
+                        this.liIndex = item.id
+                    }
+                }
+            })
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    message: undefined,
+                    movies: ['送你一朵小红花', '拆弹专家2', '你好，李焕英', '悍匪'],
+                    categories: [
+                        {
+                            id: '1',
+                            name: '热门推荐',
+                        },
+                        {
+                            id: '2',
+                            name: '手机数码'
+                        },
+                        {
+                            id: '3',
+                            name: '家用电器'
+                        },
+                        {
+                            id: '4',
+                            name: '办公用品'
+                        },
+                    ],
+                    limessage: ''
+                },
+                computed: {
+                    
+                },
+                methods: {
+                    iclick(item){
+                        console.log(item)
+                        this.limessage = item.name
+                    },
+                    btnClick() {
+                        console.log(this.$refs);
+                        console.log(this.$children);
+                        this.$children[1].showMessage();
+                        console.log(this.$children[1].name)
+                    }
+                },
+                components: {
+                    cpn2: {
+                        template: '#cpn2',
+                        data() {
+                            return {
+                                name: 'cpn2',
+                                planguages: ['javaScript', 'C#', 'Java', 'Go']
+                            }
+                        },
+                        methods: {
+                            showMessage() {
+                                console.log('showMessage')
+                            }
+                        }
+                    } 
+                }
+            })
+        </script>
+        
+        <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            document.querySelector(".get").onclick = function() {
+                axios.get("http://wthrcdn.etouch.cn/weather_mini?city=上海")
+                    .then(function(response){
+                        console.log(response)
+                    })
+            }
+        </script> -->
+    </body>
+</html>
