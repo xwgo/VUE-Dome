@@ -4,7 +4,7 @@ const htmlwebpackplugin = require('html-webpack-plugin');
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         filename: 'bundle.js',
         // publicPath: 'dist/'
     },
@@ -52,13 +52,13 @@ module.exports = {
         }
     },
     plugins: [
-        new webpack.BannerPlugin('最终版权我来解释'),
+        // new webpack.BannerPlugin('最终版权我来解释'),
         new htmlwebpackplugin({
             template: 'index.html'
         })
     ],
-    devServer: {
-        contentBase: './dist',
-        inline: true
-    }
+    // devServer: {
+    //     contentBase: './dist',
+    //     inline: true
+    // }
 }
